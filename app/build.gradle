@@ -16,18 +16,6 @@ android {
         versionName appVersion.name
     }
 
-    signingConfigs{
-        release{
-            Properties properties = new Properties()
-            InputStream stream = project.rootProject.file('local.properties').newDataInputStream()
-            properties.load(stream)
-
-            storeFile file(properties.getProperty('keystore.path'))
-            storePassword properties.getProperty('keystore.password')
-            keyAlias properties.getProperty('alias.name')
-            keyPassword properties.getProperty('alias.password')
-        }
-    }
     buildTypes {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -67,8 +55,8 @@ android {
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation support.compat
     implementation support.recyclerview
     implementation support.design

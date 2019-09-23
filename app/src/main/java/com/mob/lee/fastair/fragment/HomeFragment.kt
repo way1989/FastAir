@@ -81,7 +81,7 @@ class HomeFragment : AppFragment(), NavigationView.OnNavigationItemSelectedListe
             toolOperation.setImageDrawable(ContextCompat.getDrawable(context !!, id))
         }
         toolOperation.setOnClickListener {
-            mParent?.database(mScope, { dao ->
+            mParent?.database(mScope) { dao ->
                 val records = RecordRep.selectRecords
                 records.forEach {
                     it.state = STATE_WAIT
@@ -89,7 +89,7 @@ class HomeFragment : AppFragment(), NavigationView.OnNavigationItemSelectedListe
                 dao.insert(records)
                 //不清除会造成下次重复发送
                 RecordRep.selectRecords.clear()
-            })
+            }
             val bundle = P2PManager.bundle()
             mParent?.fragment(HistoryFragment::class, bundle)
         }

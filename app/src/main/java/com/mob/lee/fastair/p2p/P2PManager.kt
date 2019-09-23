@@ -48,11 +48,7 @@ object P2PManager {
         context.registerReceiver(receiver, intentFilter)
 
         manager = context.getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
-        channel = manager!!.initialize(context, context.mainLooper, object : WifiP2pManager.ChannelListener {
-            override fun onChannelDisconnected() {
-                unregister(context)
-            }
-        })
+        channel = manager!!.initialize(context, context.mainLooper) { unregister(context) }
     }
 
     fun unregister(context : Context){
@@ -92,12 +88,9 @@ object P2PManager {
     }
 
     fun connect(context: Context, device: WifiP2pDevice) {
-        val wps = WpsInfo()
-        wps.setup = WpsInfo.PBC
 
         val config = WifiP2pConfig()
         config.deviceAddress = device.deviceAddress
-        config.wps = wps
         manager?.connect(channel, config, ActionListener(context))
     }
 

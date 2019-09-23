@@ -43,14 +43,14 @@ class HistoryFragment : AppFragment(), ProcessListener {
         if (null != mConntect) {
             return
         }
-        if (arguments?.getBoolean("isHistory") ?: false) {
+        if (arguments?.getBoolean("isHistory") == true) {
             val adapter = fragment_history.adapter as Adapter
             mScope.launch {
                 val channel = Channel<List<Record>?>()
-                mParent?.database(mScope, { dao ->
+                mParent?.database(mScope) { dao ->
                     val records = dao.completedRecords()
                     channel.send(records)
-                })
+                }
                 val records = channel.receive()
                 records?.let {
                     for (i in it) {

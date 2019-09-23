@@ -30,6 +30,7 @@ import com.mob.lee.fastair.model.STATE_SUCCESS
 import com.mob.lee.fastair.utils.database
 import com.mob.lee.fastair.utils.updateStorage
 import java.io.File
+import kotlin.math.abs
 
 /**
  * Created by Andy on 2017/12/28.
@@ -110,9 +111,9 @@ class FileService : Service() {
             return super.onStartCommand(intent, flags, startId)
         }
         val host = intent.getStringExtra(ADDRESS)
-        val isHost = intent.getBooleanExtra(IS_HOST, false) ?: false
+        val isHost = intent.getBooleanExtra(IS_HOST, false)
         socket = SocketService(mScope)
-        socket?.addListener { state, info ->
+        socket?.addListener { state, _ ->
             when (state) {
                 STATE_DISCONNECTED -> {
                     mFileChangeListener?.invoke(FaildState())
@@ -148,7 +149,7 @@ class FileService : Service() {
     fun updateRecord(state : State?, record : Record? = null) {
         when (state) {
             is ProcessState -> {
-                if (Math.abs(oldState - state.percentage()) > 8) {
+                if (abs(oldState - state.percentage()) > 8) {
                     oldState = state.percentage()
                     state.sendMessage(mHandler)
                 }

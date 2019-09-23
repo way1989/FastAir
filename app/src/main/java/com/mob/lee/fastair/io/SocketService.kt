@@ -65,7 +65,7 @@ class SocketService(val scope : CoroutineScope, var keepAlive : Boolean = false)
             if (null != host) {
                 var time=0
                 //等待10S
-                while (!(channel?.isConnected?:false)&&time<20) {
+                while (channel?.isConnected != true && time<20) {
                     try {
                         channel = SocketChannel.open()
                         channel?.socket()?.reuseAddress = true

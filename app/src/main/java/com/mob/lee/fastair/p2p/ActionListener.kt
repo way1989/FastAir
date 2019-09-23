@@ -24,9 +24,9 @@ class ActionListener(val context : Context?) : WifiP2pManager.ActionListener {
                     AlertDialog.Builder(it)
                             .setTitle(R.string.wramTips)
                             .setMessage(R.string.tip_error_p2p_unsupport)
-                            .setPositiveButton(R.string.knowIt, { dialog, which ->
+                            .setPositiveButton(R.string.knowIt) { _, _ ->
                                 activity.supportFinishAfterTransition()
-                            })
+                            }
                 } ?: let {
                     context?.errorToast(R.string.tip_error_p2p_unsupport)
                 }
